@@ -3,12 +3,29 @@ import React, {useState} from "react";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
+export interface IGoal {
+    text: string,
+    id: number
+}
+
 export default function App() {
-    const [goals, setGoals] = useState<string[]>([])
+
+
+    const [goals, setGoals] = useState<IGoal[]>([])
 
     function addGoalHandler(goal: string) {
+        const generatedKey = Math.random()
+
+        const goalToInsert: IGoal = {id: generatedKey, text: goal}
+
         setGoals(prevState => {
-            return [...prevState, goal]
+            return [...prevState, goalToInsert]
+        })
+    }
+
+    function removeGoalHandler(id: number) {
+        setGoals(currentGoals => {
+            return currentGoals.filter(g => g.id !== id)
         })
     }
 
@@ -28,11 +45,10 @@ export default function App() {
                 <FlatList
                     data={goals}
                     renderItem={(itemData) => {
-                        return <GoalItem goal={itemData.item}/>
+                        return <GoalItem goal={itemData.item} removeGoalHandler={removeGoalHandler}/>
                     }}
                 />
             </View>
-
         </View>
     );
 }
@@ -44,25 +60,6 @@ const styles = StyleSheet.create({
         padding: 50,
         paddingHorizontal: 16
     },
-
-    inputContainer: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 24,
-        borderBottomWidth: 1,
-        borderColor: "grey"
-    },
-
-    textInput: {
-        borderWidth: 1,
-        borderColor: 'grey',
-        width: "70%",
-        marginRight: 10,
-        padding: 10
-    },
-
     goalContainer: {
         flex: 4
     }

@@ -14,7 +14,7 @@ const GoalInput: React.FC<IGoalInputData> = (data: IGoalInputData) => {
     }
 
     function addGoalPressHandler() {
-        // data.addGoalHandler(goal)
+        data.addGoalHandler(goal)
     }
 
     return (
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 24,
+        marginBottom: 10,
         borderBottomWidth: 1,
         borderColor: "grey"
     },
@@ -48,8 +48,4 @@ const styles = StyleSheet.create({
         marginRight: 10,
         padding: 10
     },
-
-    goalContainer: {
-        flex: 4
-    }
 });

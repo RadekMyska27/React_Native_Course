@@ -1,14 +1,32 @@
 import React from 'react';
-import {StyleSheet, Text} from "react-native";
+import {Pressable, StyleSheet, Text, View} from "react-native";
+
+import {IGoal} from "../App";
 
 export interface IGoalItemData {
-    goal: string
+    goal: IGoal
+    removeGoalHandler: (id: number) => void
 }
 
 const GoalItem: React.FC<IGoalItemData> = (data: IGoalItemData) => {
-    return <Text>{data.goal}</Text>
+    function removeHandler() {
+        data.removeGoalHandler(data.goal.id)
+    }
+
+    return (
+        <Pressable onPress={removeHandler}>
+            <View style={styles.goalItem}>
+                <Text>{data.goal.text}</Text>
+            </View>
+        </Pressable>
+    )
 }
 
 export default GoalItem
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    goalItem: {
+        margin: 5,
+        padding: 5
+    }
+});

@@ -1,4 +1,4 @@
-Run
+Run in terminal:
 
 npm i
 npm install -g expo-cli

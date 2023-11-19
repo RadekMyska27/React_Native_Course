@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {Button, FlatList, Modal, StyleSheet, View} from 'react-native';
 import React, {useState} from "react";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
@@ -9,9 +9,8 @@ export interface IGoal {
 }
 
 export default function App() {
-
-
     const [goals, setGoals] = useState<IGoal[]>([])
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     function addGoalHandler(goal: string) {
         const generatedKey = Math.random()
@@ -21,6 +20,7 @@ export default function App() {
         setGoals(prevState => {
             return [...prevState, goalToInsert]
         })
+        setIsModalOpen(false)
     }
 
     function removeGoalHandler(id: number) {
@@ -28,10 +28,18 @@ export default function App() {
             return currentGoals.filter(g => g.id !== id)
         })
     }
+    
+    function onCancelAddGoalHandler() {
+        setIsModalOpen(false)
+    }
 
     return (
         <View style={styles.appContainer}>
-            <GoalInput addGoalHandler={addGoalHandler}/>
+            <Button title={"Add new goal"} onPress={() => setIsModalOpen(true)}></Button>
+
+            <Modal visible={isModalOpen} animationType={"slide"} onRequestClose={onCancelAddGoalHandler}>
+                <GoalInput addGoalHandler={addGoalHandler} onCancel={onCancelAddGoalHandler}/>
+            </Modal>
 
             <View style={styles.goalContainer}>
                 {/* first option add scroll list - this is not effective for list because all memmbers are rendered even if member is not visible*/}

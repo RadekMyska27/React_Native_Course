@@ -4,6 +4,7 @@ import {Button, StyleSheet, TextInput, View} from "react-native";
 
 export interface IGoalInputData {
     addGoalHandler: (value: string) => void
+    onCancel: () => void
 }
 
 const GoalInput: React.FC<IGoalInputData> = (data: IGoalInputData) => {
@@ -14,15 +15,30 @@ const GoalInput: React.FC<IGoalInputData> = (data: IGoalInputData) => {
     }
 
     function addGoalPressHandler() {
-        data.addGoalHandler(goal)
+        if (goal !== "" && goal)
+            data.addGoalHandler(goal)
+        setGoal("")
+    }
+
+    function cancelHandler() {
+        setGoal("")
+        data.onCancel()
     }
 
     return (
         <View style={styles.inputContainer}>
-            <TextInput style={styles.textInput} placeholder={"Your course goal"}
+            <TextInput style={styles.textInput} placeholder={"Your course goal"} value={goal}
                        onChangeText={textInputHandler}>
             </TextInput>
-            <Button title={"Add Goal"} onPress={addGoalPressHandler}></Button>
+            <View style={styles.modalButtons}>
+                <View style={styles.button}>
+                    <Button title={"Add Goal"} onPress={addGoalPressHandler}></Button>
+                </View>
+                <View style={styles.button}>
+                    <Button title={"Cancel"} onPress={cancelHandler}></Button>
+                </View>
+            </View>
+
         </View>
     )
 }
@@ -33,12 +49,12 @@ export default GoalInput
 const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: "column",
+        justifyContent: "center", // content is at the center
         alignItems: "center",
         marginBottom: 10,
         borderBottomWidth: 1,
-        borderColor: "grey"
+        borderColor: "grey",
     },
 
     textInput: {
@@ -48,4 +64,12 @@ const styles = StyleSheet.create({
         marginRight: 10,
         padding: 10
     },
+    modalButtons: {
+        flexDirection: "row",
+        marginTop: 16
+    },
+    button: {
+        width: 100,
+        marginHorizontal: 8
+    }
 });

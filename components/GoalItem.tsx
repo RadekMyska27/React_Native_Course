@@ -27,6 +27,7 @@ export default GoalItem
 const styles = StyleSheet.create({
     goalItem: {
         margin: 5,
-        padding: 5
+        padding: 5,
+        backgroundColor: "green"
     }
 });

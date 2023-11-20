@@ -1,11 +1,11 @@
-import {Button, FlatList, Modal, StyleSheet, View} from 'react-native';
+import {Button, FlatList, Modal, StatusBar, StyleSheet, View} from 'react-native';
 import React, {useState} from "react";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export interface IGoal {
     text: string,
-    id: number
+    id: string
 }
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     function addGoalHandler(goal: string) {
-        const generatedKey = Math.random()
+        const generatedKey = Math.random().toString()
 
         const goalToInsert: IGoal = {id: generatedKey, text: goal}
 
@@ -23,41 +23,47 @@ export default function App() {
         setIsModalOpen(false)
     }
 
-    function removeGoalHandler(id: number) {
+    function removeGoalHandler(id: string) {
         setGoals(currentGoals => {
             return currentGoals.filter(g => g.id !== id)
         })
     }
-    
+
     function onCancelAddGoalHandler() {
         setIsModalOpen(false)
     }
 
     return (
-        <View style={styles.appContainer}>
-            <Button title={"Add new goal"} onPress={() => setIsModalOpen(true)}></Button>
+        <>
+            <StatusBar barStyle={"light-content"}/>
+            <View style={styles.appContainer}>
+                <Button title={"Add new goal"} onPress={() => setIsModalOpen(true)}></Button>
 
-            <Modal visible={isModalOpen} animationType={"slide"} onRequestClose={onCancelAddGoalHandler}>
-                <GoalInput addGoalHandler={addGoalHandler} onCancel={onCancelAddGoalHandler}/>
-            </Modal>
+                <Modal visible={isModalOpen} animationType={"slide"} onRequestClose={onCancelAddGoalHandler}>
+                    <GoalInput addGoalHandler={addGoalHandler} onCancel={onCancelAddGoalHandler}/>
+                </Modal>
 
-            <View style={styles.goalContainer}>
-                {/* first option add scroll list - this is not effective for list because all memmbers are rendered even if member is not visible*/}
+                <View style={styles.goalContainer}>
+                    {/* first option add scroll list - this is not effective for list because all memmbers are rendered even if member is not visible*/}
 
-                {/*<ScrollView>*/}
-                {/*    {goals.map((g, index) => <Text key={index}>{g}</Text>)}*/}
-                {/*</ScrollView>*/}
+                    {/*<ScrollView>*/}
+                    {/*    {goals.map((g, index) => <Text key={index}>{g}</Text>)}*/}
+                    {/*</ScrollView>*/}
 
-                {/* second option of add scroll list*/}
+                    {/* second option of add scroll list*/}
 
-                <FlatList
-                    data={goals}
-                    renderItem={(itemData) => {
-                        return <GoalItem goal={itemData.item} removeGoalHandler={removeGoalHandler}/>
-                    }}
-                />
+                    <FlatList
+                        data={goals}
+                        renderItem={(itemData) => {
+                            return <GoalItem goal={itemData.item} removeGoalHandler={removeGoalHandler}/>
+                        }}
+                        keyExtractor={(item, index) => {
+                            return item.id;
+                        }}
+                    />
+                </View>
             </View>
-        </View>
+        </>
     );
 }
 

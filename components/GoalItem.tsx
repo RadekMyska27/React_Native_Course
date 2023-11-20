@@ -5,7 +5,7 @@ import {IGoal} from "../App";
 
 export interface IGoalItemData {
     goal: IGoal
-    removeGoalHandler: (id: number) => void
+    removeGoalHandler: (id: string) => void
 }
 
 const GoalItem: React.FC<IGoalItemData> = (data: IGoalItemData) => {
@@ -16,7 +16,7 @@ const GoalItem: React.FC<IGoalItemData> = (data: IGoalItemData) => {
     return (
         <Pressable onPress={removeHandler}>
             <View style={styles.goalItem}>
-                <Text>{data.goal.text}</Text>
+                <Text style={styles.goalText}>{data.goal.text}</Text>
             </View>
         </Pressable>
     )
@@ -26,8 +26,12 @@ export default GoalItem
 
 const styles = StyleSheet.create({
     goalItem: {
-        margin: 5,
-        padding: 5,
+        margin: 8,
+        borderRadius: 6,
         backgroundColor: "green"
-    }
+    },
+    goalText: {
+        color: 'white',
+        padding: 8,
+    },
 });

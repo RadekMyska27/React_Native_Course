@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 
 export interface IPrimaryButton {
     children: React.ReactNode
@@ -13,3 +13,5 @@ const PrimaryButton: React.FC<IPrimaryButton> = (data: IPrimaryButton) => {
 }
 
 export default PrimaryButton
+
+const styles = StyleSheet.create({});

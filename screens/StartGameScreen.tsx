@@ -1,12 +1,34 @@
 import React, {useState} from "react";
-import {StyleSheet, TextInput, View} from "react-native";
+import {Alert, StyleSheet, TextInput, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 
 export interface IStartGameScreen {
 }
 
 const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => {
-    const [gameNumber, setGameNumber] = useState("")
+    const [enteredNumber, setEnteredNumber] = useState("")
+
+    function enteredNameHandler(newNumber: string) {
+        setEnteredNumber(newNumber)
+    }
+
+    function resetInputHandler() {
+        setEnteredNumber("")
+    }
+
+    function confirmHandler() {
+        const gameNumber = parseInt(enteredNumber, 10)
+
+        if (isNaN(gameNumber) || gameNumber <= 0 || gameNumber > 99) {
+            Alert.alert("Invalid number!", "Number has to be number between 1 and 99.", [{
+                text: "ok",
+                style: "destructive",
+                onPress: resetInputHandler
+            }])
+
+            return
+        }
+    }
 
     return <>
         <View style={styles.inputContainer}>
@@ -16,13 +38,15 @@ const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => 
                 keyboardType={"numeric"} // recomand for inputs where user set custom text for example email 
                 autoCapitalize={"none"} // recomand for inputs where user set custom text for example email
                 autoCorrect={false}
+                onChangeText={enteredNameHandler}
+                value={enteredNumber}
             />
             <View style={styles.buttons}>
                 <View style={styles.button}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                    <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
                 </View>
                 <View style={styles.button}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
                 </View>
             </View>
         </View>
@@ -34,23 +58,29 @@ export default StartGameScreen
 
 const styles = StyleSheet.create({
     inputContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
         marginTop: 100,
         marginHorizontal: 24,
         padding: 16,
-        backgroundColor: "#72063c",
+        backgroundColor: '#3b021f',
         borderRadius: 8,
-        elevation: 4, //shadow android only property,
-        // justifyContent: "center",
-        alignContent: "center",
+        elevation: 4,
+        shadowColor: 'black',
+        shadowOffset: {width: 0, height: 2},
+        shadowRadius: 6,
+        shadowOpacity: 0.25,
     },
     numberInput: {
         height: 50,
+        width: 50,
         fontSize: 32,
-        borderColor: "yellow",
+        borderBottomColor: '#ddb52f',
         borderBottomWidth: 2,
-        color: "yellow",
+        color: '#ddb52f',
         marginVertical: 8,
-        width: 100,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     buttons: {
         flexDirection: "row",

@@ -3,12 +3,17 @@ import {Pressable, StyleSheet, Text, View} from "react-native";
 
 export interface IPrimaryButton {
     children: React.ReactNode
+    onPress: () => void
 }
 
 const PrimaryButton: React.FC<IPrimaryButton> = (data: IPrimaryButton) => {
+    function onPressHandler() {
+        data.onPress()
+    }
+
     return (
         <View style={styles.buttonOuterContainer}>
-            <Pressable style={styles.buttonInnerContainer} android_ripple={{color: "#5e042e"}}>
+            <Pressable onPress={onPressHandler} style={styles.buttonInnerContainer} android_ripple={{color: "#5e042e"}}>
                 <Text style={styles.buttonText}>{data.children}</Text>
             </Pressable>
         </View>

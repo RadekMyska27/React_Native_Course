@@ -3,6 +3,7 @@ import {Alert, StyleSheet, TextInput, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 
 export interface IStartGameScreen {
+    onPickNumber: (pickNumber: number) => void
 }
 
 const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => {
@@ -28,6 +29,8 @@ const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => 
 
             return
         }
+        
+        data.onPickNumber(gameNumber)
     }
 
     return <>

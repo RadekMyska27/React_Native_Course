@@ -30,9 +30,6 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
     }, [currentGuess, data.onGameOver])
 
     function nextGuessHandler(direction: gameDirection) {
-
-        console.log(direction)
-
         if ((direction === gameDirection.lower && currentGuess < data.userNumber) ||
             (direction === gameDirection.higher && currentGuess > data.userNumber)) {
 

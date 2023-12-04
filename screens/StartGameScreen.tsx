@@ -1,7 +1,11 @@
 import React, {useState} from "react";
 import {Alert, StyleSheet, TextInput, View} from "react-native";
+
 import PrimaryButton from "../components/common/PrimaryButton";
 import Colors from "../constants/colors";
+import Tile from "../components/common/Tile";
+import Card from "../components/common/Card";
+import InstructionsText from "../components/common/InstructionsText";
 
 export interface IStartGameScreen {
     onPickNumber: (pickNumber: number) => void
@@ -35,24 +39,28 @@ const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => 
     }
 
     return <>
-        <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.numberInput}
-                maxLength={2}
-                keyboardType={"numeric"} // recomand for inputs where user set custom text for example email 
-                autoCapitalize={"none"} // recomand for inputs where user set custom text for example email
-                autoCorrect={false}
-                onChangeText={enteredNameHandler}
-                value={enteredNumber}
-            />
-            <View style={styles.buttons}>
-                <View style={styles.button}>
-                    <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
+        <View style={styles.topContainer}>
+            <Tile>Guess My Number</Tile>
+            <Card>
+                <InstructionsText>Enter a Game Number</InstructionsText>
+                <TextInput
+                    style={styles.numberInput}
+                    maxLength={2}
+                    keyboardType={"numeric"} // recomand for inputs where user set custom text for example email 
+                    autoCapitalize={"none"} // recomand for inputs where user set custom text for example email
+                    autoCorrect={false}
+                    onChangeText={enteredNameHandler}
+                    value={enteredNumber}
+                />
+                <View style={styles.buttons}>
+                    <View style={styles.button}>
+                        <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
+                    </View>
+                    <View style={styles.button}>
+                        <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+                    </View>
                 </View>
-                <View style={styles.button}>
-                    <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-                </View>
-            </View>
+            </Card>
         </View>
     </>
 
@@ -61,19 +69,10 @@ const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => 
 export default StartGameScreen
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    topContainer: {
+        flex: 1,
         marginTop: 100,
-        marginHorizontal: 24,
-        padding: 16,
-        backgroundColor: Colors.primary800,
-        borderRadius: 8,
-        elevation: 4,
-        shadowColor: 'black',
-        shadowOffset: {width: 0, height: 2},
-        shadowRadius: 6,
-        shadowOpacity: 0.25,
+        alignItems: "center"
     },
     numberInput: {
         height: 50,

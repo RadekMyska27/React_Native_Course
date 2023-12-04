@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Alert, StyleSheet, Text, View} from "react-native";
+import {Alert, StyleSheet, View} from "react-native";
 import Tile from "../components/common/Tile";
 import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/common/PrimaryButton";
+import Card from "../components/common/Card";
+import InstructionsText from "../components/common/InstructionsText";
 
 
 export enum gameDirection {
@@ -27,7 +29,7 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
         if (currentGuess === data.userNumber) {
             data.onGameOver(true)
         }
-    }, [currentGuess, data.onGameOver])
+    }, [currentGuess, data.onGameOver, data.userNumber])
 
     function nextGuessHandler(direction: gameDirection) {
         if ((direction === gameDirection.lower && currentGuess < data.userNumber) ||
@@ -54,24 +56,36 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
         <View style={styles.screen}>
             <Tile>Opponent´s Guess</Tile>
             <NumberContainer>{currentGuess}</NumberContainer>
-            <View>
-                <Text>Higher or lower?</Text>
-                <View>
-                    <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.lower)}>-</PrimaryButton>
-                    <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.higher)}>+</PrimaryButton>
+            <Card>
+                <InstructionsText style={styles.instructionsText}>{"Higher or lower?"}</InstructionsText>
+                <View style={styles.buttons}>
+                    <View style={styles.button}>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.lower)}>-</PrimaryButton>
+                    </View>
+                    <View style={styles.button}>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.higher)}>+</PrimaryButton>
+                    </View>
                 </View>
-            </View>
+            </Card>
         </View>
     )
 
 }
 
 const styles = StyleSheet.create({
+    instructionsText: {
+        marginTop: 12
+    },
     screen: {
         flex: 1,
         padding: 24
     },
-    buttons: {}
+    buttons: {
+        flexDirection: "row",
+    },
+    button: {
+        flex: 1
+    }
 })
 
 function generateRandomBetween(min: number, max: number, exclude: number): number | undefined {

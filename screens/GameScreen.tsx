@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Alert, StyleSheet, View} from "react-native";
+import {AntDesign} from "@expo/vector-icons"
 import Tile from "../components/common/Tile";
 import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/common/PrimaryButton";
@@ -14,7 +15,7 @@ export enum gameDirection {
 
 export interface IGameScreenData {
     userNumber: number,
-    onGameOver: (isGameOver: boolean) => void
+    onGameOver: (isGameOver: boolean, guesses: number) => void
 }
 
 
@@ -24,10 +25,16 @@ let maxBoundary = 100;
 const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
     const initialGuess: number = generateRandomBetween(minBoundary, maxBoundary, data.userNumber) ?? 1
     const [currentGuess, setCurrentGuess] = useState(initialGuess)
+    const [numberOfGuesses, setNumberOfGuesses] = useState(0)
+
+    useEffect(() => {
+        minBoundary = 1;
+        maxBoundary = 100;
+    }, []);
 
     useEffect(() => {
         if (currentGuess === data.userNumber) {
-            data.onGameOver(true)
+            data.onGameOver(true, numberOfGuesses)
         }
     }, [currentGuess, data.onGameOver, data.userNumber])
 
@@ -50,6 +57,7 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
 
         const newGuess = generateRandomBetween(minBoundary, maxBoundary, currentGuess) ?? 1
         setCurrentGuess(newGuess)
+        setNumberOfGuesses(prevState => prevState + 1)
     }
 
     return (
@@ -60,10 +68,14 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
                 <InstructionsText style={styles.instructionsText}>{"Higher or lower?"}</InstructionsText>
                 <View style={styles.buttons}>
                     <View style={styles.button}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.lower)}>-</PrimaryButton>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.lower)}>
+                            <AntDesign name="minuscircle" size={24}/>
+                        </PrimaryButton>
                     </View>
                     <View style={styles.button}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.higher)}>+</PrimaryButton>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, gameDirection.higher)}>
+                            <AntDesign name="pluscircle" size={24}/>
+                        </PrimaryButton>
                     </View>
                 </View>
             </Card>

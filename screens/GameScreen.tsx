@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert, FlatList, StyleSheet, Text, View} from "react-native";
+import {Alert, FlatList, StyleSheet, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons"
 
 import Tile from "../components/common/Tile";
@@ -7,8 +7,8 @@ import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/common/PrimaryButton";
 import Card from "../components/common/Card";
 import InstructionsText from "../components/common/InstructionsText";
-import Fonts from "../constants/fonts";
 import colors from "../constants/colors";
+import GuessLogItem from "../components/common/GuessLogItem";
 
 export enum gameDirection {
     lower,
@@ -27,7 +27,9 @@ let maxBoundary = 100;
 const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
     const initialGuess: number = generateRandomBetween(minBoundary, maxBoundary, data.userNumber) ?? 1
     const [currentGuess, setCurrentGuess] = useState(initialGuess)
-    const [guesses, setGuesses] = useState<number[]>([])
+    const [guesses, setGuesses] = useState<number[]>([initialGuess])
+
+    const guessesLenght = guesses.length
 
     useEffect(() => {
         minBoundary = 1;
@@ -83,9 +85,15 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
             </Card>
             <View style={styles.logsContainer}>
                 <InstructionsText style={styles.logListHeading}>Guesses</InstructionsText>
-                <FlatList data={guesses} inverted renderItem={({item, index}) => <Text
-                    style={styles.logItem}>{item}</Text>}></FlatList>
             </View>
+            <View style={styles.logsListContainer}>
+                <FlatList data={guesses}
+                          renderItem={(guess) => <GuessLogItem item={guess.item}
+                                                               index={guessesLenght - guess.index}/>}
+                          keyExtractor={(item) => item.toString()}
+                ></FlatList>
+            </View>
+
         </View>
     )
 
@@ -105,19 +113,17 @@ const styles = StyleSheet.create({
     button: {
         flex: 1
     },
-    logItem: {
-        fontSize: 25,
-        fontFamily: Fonts.openSans,
-        color: colors.primary600
-    },
     logListHeading: {
         color: colors.primary800,
         fontWeight: "bold"
     },
     logsContainer: {
-        marginTop: 20,
         justifyContent: "center",
         alignItems: "center"
+    },
+    logsListContainer: {
+        flex: 1,
+        padding: 16
     }
 })
 

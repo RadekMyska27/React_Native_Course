@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {Alert, StyleSheet, View} from "react-native";
+import {Alert, FlatList, StyleSheet, Text, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons"
+
 import Tile from "../components/common/Tile";
 import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/common/PrimaryButton";
 import Card from "../components/common/Card";
 import InstructionsText from "../components/common/InstructionsText";
-
+import Fonts from "../constants/fonts";
+import colors from "../constants/colors";
 
 export enum gameDirection {
     lower,
@@ -25,7 +27,7 @@ let maxBoundary = 100;
 const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
     const initialGuess: number = generateRandomBetween(minBoundary, maxBoundary, data.userNumber) ?? 1
     const [currentGuess, setCurrentGuess] = useState(initialGuess)
-    const [numberOfGuesses, setNumberOfGuesses] = useState(0)
+    const [guesses, setGuesses] = useState<number[]>([])
 
     useEffect(() => {
         minBoundary = 1;
@@ -34,9 +36,9 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
 
     useEffect(() => {
         if (currentGuess === data.userNumber) {
-            data.onGameOver(true, numberOfGuesses)
+            data.onGameOver(true, guesses.length)
         }
-    }, [currentGuess, data.onGameOver, data.userNumber])
+    }, [currentGuess, data.onGameOver, data.userNumber, guesses])
 
     function nextGuessHandler(direction: gameDirection) {
         if ((direction === gameDirection.lower && currentGuess < data.userNumber) ||
@@ -57,7 +59,7 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
 
         const newGuess = generateRandomBetween(minBoundary, maxBoundary, currentGuess) ?? 1
         setCurrentGuess(newGuess)
-        setNumberOfGuesses(prevState => prevState + 1)
+        setGuesses(prevState => [newGuess, ...prevState])
     }
 
     return (
@@ -79,6 +81,11 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
                     </View>
                 </View>
             </Card>
+            <View style={styles.logsContainer}>
+                <InstructionsText style={styles.logListHeading}>Guesses</InstructionsText>
+                <FlatList data={guesses} inverted renderItem={({item, index}) => <Text
+                    style={styles.logItem}>{item}</Text>}></FlatList>
+            </View>
         </View>
     )
 
@@ -97,6 +104,20 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 1
+    },
+    logItem: {
+        fontSize: 25,
+        fontFamily: Fonts.openSans,
+        color: colors.primary600
+    },
+    logListHeading: {
+        color: colors.primary800,
+        fontWeight: "bold"
+    },
+    logsContainer: {
+        marginTop: 20,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 

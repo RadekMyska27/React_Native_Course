@@ -22,6 +22,8 @@ export default function App() {
         async function prepare() {
             try {
                 // Pre-load fonts, make any API calls you need to do here
+
+                //PAIR WITH FONTS AT fonts.ts !!!!!!!
                 await Font.loadAsync(
                     {
                         'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -62,7 +64,7 @@ export default function App() {
     }
 
     function setGameOverHandler(isOver: boolean, guesses: number) {
-        setIsGameOver(true)
+        setIsGameOver(isOver)
         setNumberOfGuesses(guesses)
     }
 

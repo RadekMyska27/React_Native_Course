@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from "react-native";
+import {Dimensions, StyleSheet, Text, View} from "react-native";
 import React from "react";
 import Colors from "../../constants/colors";
 
@@ -18,6 +18,9 @@ const NumberContainer = (data: INumberContainerData) => {
     )
 
 }
+export default NumberContainer
+
+const deviceWidth = Dimensions.get("window").width
 
 const styles = StyleSheet.create(
     {
@@ -38,4 +41,4 @@ const styles = StyleSheet.create(
     }
 )
 
-export default NumberContainer
+

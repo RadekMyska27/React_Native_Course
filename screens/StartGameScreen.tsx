@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Alert, StyleSheet, TextInput, View} from "react-native";
+import {Alert, StyleSheet, TextInput, useWindowDimensions, View} from "react-native";
 
 import PrimaryButton from "../components/common/PrimaryButton";
 import Colors from "../constants/colors";
@@ -14,6 +14,8 @@ export interface IStartGameScreen {
 const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => {
     const [enteredNumber, setEnteredNumber] = useState("")
 
+    const {height, width} = useWindowDimensions()
+    
     function enteredNameHandler(newNumber: string) {
         setEnteredNumber(newNumber)
     }

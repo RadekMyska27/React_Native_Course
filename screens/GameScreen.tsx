@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert, FlatList, StyleSheet, View} from "react-native";
+import {Alert, Dimensions, FlatList, StyleSheet, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons"
 
 import Tile from "../components/common/Tile";
@@ -99,13 +99,17 @@ const GameScreen: React.FC<IGameScreenData> = (data: IGameScreenData) => {
 
 }
 
+const deviceHeight = Dimensions.get("window").height
+
 const styles = StyleSheet.create({
     instructionsText: {
         marginTop: 12
     },
     screen: {
         flex: 1,
-        padding: 24
+        paddingTop: deviceHeight < 850 ? 50 : 24,
+        padding: 24,
+        alignItems: "center"
     },
     buttons: {
         flexDirection: "row",

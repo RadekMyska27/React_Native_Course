@@ -10,7 +10,7 @@ export interface ICategoriesScreenData {
 }
 
 const CategoriesScreen = (data: ICategoriesScreenData) => {
-    const navigation = useNavigation<NavigateList>();
+    const navigation = useNavigation();
 
     function renderCategoryItem(itemData: ListRenderItemInfo<Category>) {
 

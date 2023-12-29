@@ -1,6 +1,8 @@
+import {useEffect} from "react";
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from "react-native";
-import {RouteProp, useRoute} from "@react-navigation/native";
-import {MEALS} from "../extra-files/dummy-data";
+import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
+
+import {CATEGORIES, MEALS} from "../extra-files/dummy-data";
 import Meal from "../models/meal";
 import MealItem, {IMealItemData} from "../components/MealItem";
 
@@ -9,10 +11,20 @@ export interface IMealsOverviewScreenData {
 
 const MealsOverviewScreen = (data: IMealsOverviewScreenData) => {
     const route = useRoute<RouteProp<ParamList>>();
+    const navigation = useNavigation();
 
     const categoryId = route.params.categoryId
 
     const displayedMeals = MEALS.filter(m => m.categoryIds.indexOf(categoryId) !== -1)
+
+    useEffect(() => {
+        const categoryTitle = CATEGORIES.find(category => category.id === categoryId)
+
+        navigation.setOptions({
+            title: categoryTitle?.title
+        })
+
+    }, [categoryId, navigation]);
 
     return (
         <View style={styles.container}>

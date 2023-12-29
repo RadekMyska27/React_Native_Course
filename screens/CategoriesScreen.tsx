@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import {CATEGORIES} from "../extra-files/dummy-data";
 import Category from "../models/category";
 import CategoryGridTile from "../components/CategoryGridTile";
-import {MealsOverview} from "../App";
+import {MealsOverview} from "../routesConst";
 
 export interface ICategoriesScreenData {
 }
@@ -15,7 +15,7 @@ const CategoriesScreen = (data: ICategoriesScreenData) => {
     function renderCategoryItem(itemData: ListRenderItemInfo<Category>) {
 
         function onPressHandler() {
-            //TODO solce problem with type check of navigation !!!!!
+            //TODO solve problem with type check of navigation !!!!!
             // @ts-ignore
             navigation.navigate(MealsOverview, {
                 categoryId: itemData.item.id

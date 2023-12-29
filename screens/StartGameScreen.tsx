@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Alert, StyleSheet, TextInput, useWindowDimensions, View} from "react-native";
+import {Alert, KeyboardAvoidingView, ScrollView, StyleSheet, TextInput, useWindowDimensions, View} from "react-native";
 
 import PrimaryButton from "../components/common/PrimaryButton";
 import Colors from "../constants/colors";
@@ -15,7 +15,7 @@ const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => 
     const [enteredNumber, setEnteredNumber] = useState("")
 
     const {height, width} = useWindowDimensions()
-    
+
     function enteredNameHandler(newNumber: string) {
         setEnteredNumber(newNumber)
     }
@@ -41,36 +41,42 @@ const StartGameScreen: React.FC<IStartGameScreen> = (data: IStartGameScreen) => 
     }
 
     return <>
-        <View style={styles.topContainer}>
-            <Tile>Guess My Number</Tile>
-            <Card>
-                <InstructionsText>Enter a Game Number</InstructionsText>
-                <TextInput
-                    style={styles.numberInput}
-                    maxLength={2}
-                    keyboardType={"numeric"} // recomand for inputs where user set custom text for example email 
-                    autoCapitalize={"none"} // recomand for inputs where user set custom text for example email
-                    autoCorrect={false}
-                    onChangeText={enteredNameHandler}
-                    value={enteredNumber}
-                />
-                <View style={styles.buttons}>
-                    <View style={styles.button}>
-                        <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
-                    </View>
-                    <View style={styles.button}>
-                        <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-                    </View>
+        <ScrollView style={styles.screen}>
+            <KeyboardAvoidingView style={styles.screen} behavior={"position"}>
+                <View style={[styles.topContainer, {marginTop: height > 380 ? 100 : 30}]}>
+                    <Tile>Guess My Number</Tile>
+                    <Card>
+                        <InstructionsText>Enter a Game Number</InstructionsText>
+                        <TextInput
+                            style={styles.numberInput}
+                            maxLength={2}
+                            keyboardType={"numeric"} // recomand for inputs where user set custom text for example email 
+                            autoCapitalize={"none"} // recomand for inputs where user set custom text for example email
+                            autoCorrect={false}
+                            onChangeText={enteredNameHandler}
+                            value={enteredNumber}
+                        />
+                        <View style={styles.buttons}>
+                            <View style={styles.button}>
+                                <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
+                            </View>
+                            <View style={styles.button}>
+                                <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+                            </View>
+                        </View>
+                    </Card>
                 </View>
-            </Card>
-        </View>
+            </KeyboardAvoidingView>
+        </ScrollView>
     </>
-
 }
 
 export default StartGameScreen
 
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1
+    },
     topContainer: {
         flex: 1,
         marginTop: 100,

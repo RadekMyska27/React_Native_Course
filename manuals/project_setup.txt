@@ -1,4 +1,10 @@
 Run in terminal:
 
+First start:
 npm i
 npm install -g expo-cli
+
+Build project run in terminal:
+npm run
+a - for android
+r - for reload app

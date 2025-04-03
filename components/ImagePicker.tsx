@@ -1,13 +1,8 @@
 import React, {useState} from "react";
-import {Button, StyleSheet, View, Text, Image, Dimensions} from "react-native";
+import {Button, StyleSheet, View, Image, Dimensions} from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 
-
-export interface IImagePickerData {
-
-}
-
-const ImagePicker = (data: IImagePickerData) => {
+const ImagePicker = () => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const {width, height} = Dimensions.get("window"); // Get screen width and height
     const MARGIN = 20; // Define your margin
@@ -41,11 +36,10 @@ const ImagePicker = (data: IImagePickerData) => {
         },
         image: {
             width: width - MARGIN * 2, // Max width minus margin
-            height: height/2, // Max height minus margin
+            height: height / 2, // Max height minus margin
             resizeMode: "contain", // Ensures the image scales properly
         }
     });
-
 
     return (
             <View style={styles.container}>
@@ -58,6 +52,5 @@ const ImagePicker = (data: IImagePickerData) => {
             </View>
     )
 }
-
 
 export default ImagePicker

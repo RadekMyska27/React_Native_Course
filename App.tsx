@@ -1,7 +1,5 @@
-import {Button, FlatList, Image, Modal, StyleSheet, View} from 'react-native';
-import React, {useState} from "react";
-import GoalItem from "./components/GoalItem";
-import GoalInput from "./components/GoalInput";
+import React from "react";
+import {StyleSheet, View} from 'react-native';
 import ImagePicker from "./components/ImagePicker";
 
 export interface IGoal {
@@ -10,67 +8,12 @@ export interface IGoal {
 }
 
 export default function App() {
-    const [goals, setGoals] = useState<IGoal[]>([])
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [isFileExplorer, setIsFileExplorer] = useState(false)
-
-    function addGoalHandler(goal: string) {
-        const generatedKey = Math.random()
-
-        const goalToInsert: IGoal = {id: generatedKey, text: goal}
-
-        setGoals(prevState => {
-            return [...prevState, goalToInsert]
-        })
-        setIsModalOpen(false)
-    }
-
-    function removeGoalHandler(id: number) {
-        setGoals(currentGoals => {
-            return currentGoals.filter(g => g.id !== id)
-        })
-    }
-
-    function onCancelAddGoalHandler() {
-        setIsModalOpen(false)
-    }
-
-    function onCancelFileExplorerHandler() {
-        setIsFileExplorer(false)
-    }
-
     return (
             <View style={styles.appContainer}>
-                {/*<Button title={"Add Task"} onPress={() => setIsModalOpen(true)}></Button>*/}
-
                 <ImagePicker/>
-
-                {/*<Modal visible={isModalOpen} animationType={"slide"} onRequestClose={onCancelAddGoalHandler}>*/}
-                {/*    <GoalInput addGoalHandler={addGoalHandler} onCancel={onCancelAddGoalHandler}/>*/}
-                {/*</Modal>*/}
-
-
-
-                {/*<View style={styles.goalContainer}>*/}
-                {/*    /!* first option add scroll list - this is not effective for list because all memmbers are rendered even if member is not visible*!/*/}
-
-                {/*    /!*<ScrollView>*!/*/}
-                {/*    /!*    {goals.map((g, index) => <Text key={index}>{g}</Text>)}*!/*/}
-                {/*    /!*</ScrollView>*!/*/}
-
-                {/*    /!* second option of add scroll list*!/*/}
-
-                {/*    <FlatList*/}
-                {/*            data={goals}*/}
-                {/*            renderItem={(itemData) => {*/}
-                {/*                return <GoalItem goal={itemData.item} removeGoalHandler={removeGoalHandler}/>*/}
-                {/*            }}*/}
-                {/*    />*/}
-                {/*</View>*/}
             </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     appContainer: {
